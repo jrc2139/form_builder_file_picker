@@ -94,8 +94,7 @@ class FormBuilderFilePicker extends FormBuilderField<List<PlatformFile>> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      if (maxFiles != null)
-                        Text('${state._files!.length} / $maxFiles'),
+                      if (maxFiles != null) Text('${state._files!.length} / $maxFiles'),
                       InkWell(
                         onTap: state.enabled &&
                                 (null == state._remainingItemCount ||
@@ -158,7 +157,7 @@ class _FormBuilderFilePickerState
         resultList = await FilePicker.platform.pickFiles(
           type: widget.type,
           allowedExtensions: widget.allowedExtensions,
-          allowCompression: widget.allowCompression,
+          allowCompression: widget.allowCompression ?? true,
           onFileLoading: widget.onFileLoading,
           allowMultiple: widget.allowMultiple,
           withData: widget.withData,
@@ -191,16 +190,14 @@ class _FormBuilderFilePickerState
     widget.onChanged?.call(_files);
   }
 
-  Widget defaultFileViewer(
-      List<PlatformFile>? files, FormFieldState<List<PlatformFile>?> field) {
+  Widget defaultFileViewer(List<PlatformFile>? files, FormFieldState<List<PlatformFile>?> field) {
     final theme = Theme.of(context);
 
     return LayoutBuilder(
       builder: (context, constraints) {
         const count = 3;
         const spacing = 10;
-        final itemSize =
-            (constraints.biggest.width - (count * spacing)) / count;
+        final itemSize = (constraints.biggest.width - (count * spacing)) / count;
         return Wrap(
           // scrollDirection: Axis.horizontal,
           alignment: WrapAlignment.start,
@@ -219,11 +216,9 @@ class _FormBuilderFilePickerState
                   children: <Widget>[
                     Container(
                       alignment: Alignment.center,
-                      child: (imageFileExts.contains(
-                                  files[index].extension!.toLowerCase()) &&
+                      child: (imageFileExts.contains(files[index].extension!.toLowerCase()) &&
                               widget.previewImages)
-                          ? Image.file(File(files[index].path!),
-                              fit: BoxFit.cover)
+                          ? Image.file(File(files[index].path!), fit: BoxFit.cover)
                           : Container(
                               alignment: Alignment.center,
                               color: theme.primaryColor,

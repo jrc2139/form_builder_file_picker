@@ -218,7 +218,7 @@ class _FormBuilderFilePickerState
                       alignment: Alignment.center,
                       child: (imageFileExts.contains(files[index].extension!.toLowerCase()) &&
                               widget.previewImages)
-                          ? Image.file(File(files[index].path), fit: BoxFit.cover)
+                          ? Image.file(File(files[index].path ?? ''), fit: BoxFit.cover)
                           : Container(
                               alignment: Alignment.center,
                               color: theme.primaryColor,
